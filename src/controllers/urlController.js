@@ -7,9 +7,6 @@ const createShortUrl = async function (req, res) {
         //==defining baseUrl==//
         const baseUrl = 'http://localhost:3000'
 
-        //==validating request body==//
-        if (Object.keys(req.body).length == 0) return res.status(400).send({ status: false, message: "Invalid request, please provide details" })
-
         //==validating long url==//
         let data = req.body
         if (!validUrl.isUri(data.longUrl)) return res.status(400).send({ status: false, msg: "Enter valid url" })
