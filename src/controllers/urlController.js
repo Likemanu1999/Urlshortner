@@ -1,7 +1,6 @@
 const urlModel = require("../models/urlModel");
 const validUrl = require('valid-url');
 const shortid = require('shortid');
-const  Url = require("../models/urlModel");
 
 const createShortUrl = async function (req, res) {
     try {
@@ -35,13 +34,9 @@ const createShortUrl = async function (req, res) {
 
 const getShortUrl = async function (req, res) {
     try { 
-            const url = await Url.findOne({ urlCode: req.params.urlCode });
-    // console.log(url)
-      if (url) {
-        url.clicks++;
-        url.save();
-        return res.redirect(url.origUrl);
-      } else res.status(404).json("Not found");
+        const urlData = await urlModel.findOne({ urlCode: req.params.urlCode.trim() })
+        if (!urlData)
+        return res.status(404).send({ status: false, message: "No URL Found " });
     } catch (err) {
         return res.status(500).send({ status: false, error: err.message })
     }
